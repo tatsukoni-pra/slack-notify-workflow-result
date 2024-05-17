@@ -36,6 +36,7 @@ jobs:
     needs: [job-1, job-2, job-3]
     if: ${{ always() }}
     steps:
+      - uses: actions/checkout@v3
       - name: Check Job Status
         id: check_status
         uses: ./.github/actions/check-job-status
