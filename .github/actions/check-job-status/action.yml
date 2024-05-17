@@ -1,0 +1,27 @@
+name: 'Check Job Status'
+description: 'Check the status of all jobs'
+
+inputs:
+  jobs:
+    description: 'The needs context containing the job information'
+    required: true
+outputs:
+  all_jobs_succeeded:
+    description: 'Whether all jobs have succeeded'
+    value: ${{ steps.check_status.outputs.all_jobs_succeeded }}
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Check Job Status
+      id: check_status
+      run: |
+        all_jobs_succeeded=true
+        for job in ${{ toJSON(inputs.jobs) }}; do
+          if [[ $job.result != 'success' ]]; then
+            all_jobs_succeeded=false
+            break
+          fi
+        done
+        echo "all_jobs_succeeded=$all_jobs_succeeded" >> $GITHUB_OUTPUT
+      shell: bash

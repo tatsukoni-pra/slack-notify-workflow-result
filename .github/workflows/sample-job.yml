@@ -36,5 +36,14 @@ jobs:
     needs: [job-1, job-2, job-3]
     if: ${{ always() }}
     steps:
-      - name: notify
-        run: echo '${{ toJSON(needs) }}'
+      - name: Check Job Status
+        id: check_status
+        uses: ./.github/actions/check-job-status
+        with:
+          jobs: ${{ toJSON(needs) }}
+      - name: notify-success
+        if: steps.check_status.outputs.all_jobs_succeeded == 'true'
+        run: echo 'Success'
+      - name: notify-failure
+        if: steps.check_status.outputs.all_jobs_succeeded == 'false'
+        run: echo 'Failure'
