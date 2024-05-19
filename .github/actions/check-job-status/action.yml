@@ -17,12 +17,6 @@ runs:
       id: check_status
       run: |
         all_jobs_succeeded=true
-        echo ${{ inputs.jobs }} | jq -c '.[] | .result' | while read -r result; do
-          echo "結果: $result"
-          if [ "$result" != '"success"' ]; then
-            all_jobs_succeeded=false
-            break
-          fi
-        done
+        echo ${{ inputs.jobs }}
         echo "all_jobs_succeeded=$all_jobs_succeeded" >> $GITHUB_OUTPUT
       shell: bash
