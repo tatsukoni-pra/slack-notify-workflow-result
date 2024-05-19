@@ -17,7 +17,7 @@ runs:
       id: check_status
       run: |
         all_jobs_succeeded=true
-        for job_key in ${{ toJSON(inputs.jobs) }}; do
+        for job_key in $(echo "${{ toJSON(inputs.jobs) }}" | jq -r 'keys[]'); do
           echo "デバッグ開始"
           echo $job_key
           echo "デバッグ終了"
