@@ -41,11 +41,11 @@ jobs:
       - uses: actions/checkout@v3
       - name: Check Job Status
         id: check_status
-        uses: ./.github/actions/check-job-status
+        uses: ./.github/actions/check-workflow-status
         with:
           needs: ${{ toJSON(needs) }}
       - name: notify-success
-        if: steps.check_status.outputs.all_jobs_succeeded == 'true'
+        if: steps.check_status.outputs.workflow_succeeded == 'true'
         uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_COLOR: good
@@ -54,7 +54,7 @@ jobs:
           SLACK_USERNAME: デプロイ結果通知
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
       - name: notify-failure
-        if: steps.check_status.outputs.all_jobs_succeeded == 'false'
+        if: steps.check_status.outputs.workflow_succeeded == 'false'
         uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_COLOR: danger

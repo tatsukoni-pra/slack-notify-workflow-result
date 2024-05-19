@@ -1,14 +1,14 @@
-name: 'Check Job Status'
-description: 'Check the status of all jobs'
+name: 'Check Workflow Status'
+description: 'Check the status of workflow'
 
 inputs:
   needs:
     description: 'The needs context containing the job information'
     required: true
 outputs:
-  all_jobs_succeeded:
-    description: 'Whether all jobs have succeeded'
-    value: ${{ steps.check_status.outputs.all_jobs_succeeded }}
+  workflow_succeeded:
+    description: 'Whether workflow have succeeded'
+    value: ${{ steps.check_status.outputs.workflow_succeeded }}
 
 runs:
   using: 'composite'
@@ -24,8 +24,8 @@ runs:
           fi
         done
         if [ -e failure.txt ]; then
-          echo "all_jobs_succeeded=false" >> $GITHUB_OUTPUT
+          echo "workflow_succeeded=false" >> $GITHUB_OUTPUT
         else
-          echo "all_jobs_succeeded=true" >> $GITHUB_OUTPUT
+          echo "workflow_succeeded=true" >> $GITHUB_OUTPUT
         fi
       shell: bash
