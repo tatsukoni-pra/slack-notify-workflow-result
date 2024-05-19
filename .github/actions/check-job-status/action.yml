@@ -18,7 +18,10 @@ runs:
       run: |
         all_jobs_succeeded=true
         for job in ${{ toJSON(inputs.jobs) }}; do
+          echo "デバッグ開始"
+          echo $job
           echo $job.result
+          echo "デバッグ終了"
           if [[ $job.result != 'success' ]]; then
             all_jobs_succeeded=false
             break
