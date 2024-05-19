@@ -2,7 +2,7 @@ name: 'Check Job Status'
 description: 'Check the status of all jobs'
 
 inputs:
-  jobs:
+  needs:
     description: 'The needs context containing the job information'
     required: true
 outputs:
@@ -16,18 +16,16 @@ runs:
     - name: Check Job Status
       id: check_status
       run: |
-        all_jobs_succeeded=true
-        echo "入力: ${{ inputs.jobs }}"
-        echo "入力Json: ${{ toJSON(inputs.jobs) }}"
-        json=$(echo "${{ toJSON(inputs.jobs) }}" | sed 's/n//g')
-        echo "$json" | jq -c '.[] | .result' | while read -r result; do
-          echo "結果: $result"
+        needs_json=$(echo "${{ toJSON(inputs.needs) }}" | sed 's/n//g')
+        echo "$needs_json" | jq -c '.[] | .result' | while read -r result; do
           if [ "$result" != '"success"' ]; then
-            echo "結果は失敗です"
-            all_jobs_succeeded=false
+            echo "job failure" > failure.txt
             break
           fi
         done
-        echo "ループ結果: $all_jobs_succeeded"
-        echo "all_jobs_succeeded=$all_jobs_succeeded" >> $GITHUB_OUTPUT
+        if [ -e failure.txt ]; then
+          echo "all_jobs_succeeded=false" >> $GITHUB_OUTPUT
+        else
+          echo "all_jobs_succeeded=true" >> $GITHUB_OUTPUT
+        fi
       shell: bash
