@@ -19,7 +19,8 @@ runs:
         all_jobs_succeeded=true
         echo "入力: ${{ inputs.jobs }}"
         echo "入力Json: ${{ toJSON(inputs.jobs) }}"
-        echo "${{ toJSON(inputs.jobs) }}" | jq -c '.[] | .result' | while read -r result; do
+        json=$(echo "${{ toJSON(inputs.jobs) }}" | sed 's/n//g')
+        echo "$json" | jq -c '.[] | .result' | while read -r result; do
           echo "結果: $result"
           if [ "$result" != '"success"' ]; then
             all_jobs_succeeded=false
