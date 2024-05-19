@@ -16,6 +16,9 @@ runs:
     - name: Check Job Status
       id: check_status
       run: |
+        echo "入力値デバッグ開始"
+        echo ${{ inputs.jobs }}
+        echo "入力値デバッグ開始"
         all_jobs_succeeded=true
         for job in ${{ toJSON(inputs.jobs) }}; do
           echo "デバッグ開始"
