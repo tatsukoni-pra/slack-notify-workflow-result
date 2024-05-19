@@ -43,7 +43,7 @@ jobs:
         id: check_status
         uses: ./.github/actions/check-job-status
         with:
-          jobs: ${{ toJSON(needs) }}
+          needs: ${{ toJSON(needs) }}
       - name: notify-success
         if: steps.check_status.outputs.all_jobs_succeeded == 'true'
         uses: rtCamp/action-slack-notify@v2
