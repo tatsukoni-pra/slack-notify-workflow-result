@@ -16,16 +16,10 @@ runs:
     - name: Check Job Status
       id: check_status
       run: |
-        echo "入力値デバッグ開始"
-        echo ${{ inputs.jobs }}
-        echo "入力値デバッグ完了"
         all_jobs_succeeded=true
-        for job in ${{ toJSON(inputs.jobs) }}; do
-          echo "デバッグ開始"
-          echo $job
-          echo $job.result
-          echo "デバッグ終了"
-          if [[ $job.result != 'success' ]]; then
+        for job_key in ${{ toJSON(inputs.jobs) }}; do
+          job_result=${{ fromJSON(toJSON(inputs.jobs))[$job_key].result }}
+          if [[ $job_result != 'success' ]]; then
             all_jobs_succeeded=false
             break
           fi
