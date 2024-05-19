@@ -17,8 +17,8 @@ runs:
       id: check_status
       run: |
         all_jobs_succeeded=true
-        echo "$json"
-        echo "$json" | jq -c '.[] | .result' | while read -r result; do
+        echo "$jobs"
+        echo "$jobs" | jq -c '.[] | .result' | while read -r result; do
           echo "結果: $result"
           if [ "$result" != '"success"' ]; then
             all_jobs_succeeded=false
