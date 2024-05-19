@@ -4,38 +4,38 @@ on:
   push:
 
 jobs:
-  job-1:
+  job-a:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - name: job-1 output-1
+      - name: job-a output-1
         run: echo Job1 Hello1
-      - name: job-1 output-2
+      - name: job-a output-2
         run: echo Job1 Hello2
 
-  job-2:
+  job-b:
     runs-on: ubuntu-latest
-    needs: job-1
+    needs: job-a
     timeout-minutes: 10
     steps:
       # - name: exit
       #   run: exit 1
-      - name: job-2 output-1
+      - name: job-b output-1
         run: echo Job2 Hello1
 
-  job-3:
+  job-c:
     runs-on: ubuntu-latest
-    needs: [job-1, job-2]
+    needs: [job-a, job-b]
     timeout-minutes: 10
     steps:
-      - name: job-3 output-1
+      - name: job-c output-1
         run: echo Job3 Hello1
-      - name: job-3 output-2
+      - name: job-c output-2
         run: echo Job3 Hello2
 
   notify:
     runs-on: ubuntu-latest
-    needs: [job-1, job-2, job-3]
+    needs: [job-a, job-b, job-c]
     if: ${{ always() }}
     steps:
       - uses: actions/checkout@v3
