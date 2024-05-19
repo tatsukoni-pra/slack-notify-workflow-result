@@ -27,5 +27,6 @@ runs:
             break
           fi
         done
+        echo "ループ結果: $all_jobs_succeeded"
         echo "all_jobs_succeeded=$all_jobs_succeeded" >> $GITHUB_OUTPUT
       shell: bash
