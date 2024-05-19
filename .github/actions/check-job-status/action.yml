@@ -17,6 +17,5 @@ runs:
       id: check_status
       run: |
         all_jobs_succeeded=true
-        echo '${{ toJSON(inputs.jobs) }}'
         echo "all_jobs_succeeded=$all_jobs_succeeded" >> $GITHUB_OUTPUT
       shell: bash
