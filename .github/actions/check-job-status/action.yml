@@ -18,10 +18,12 @@ runs:
       run: |
         all_jobs_succeeded=true
         jobs_json='${{ toJSON(inputs.jobs) }}'
-        for job_key in $(echo "$jobs_json" | jq -r 'keys[]'); do
-          echo "デバッグ開始"
-          echo $job_key
-          echo "デバッグ終了"
+        echo "$jobs_json" | jq -c '.[] | .result' | while read -r result; do
+          echo "結果: $result"
+          if [ "$result" != "success" ]; then
+            all_jobs_succeeded=false
+            break
+          fi
         done
         echo "all_jobs_succeeded=$all_jobs_succeeded" >> $GITHUB_OUTPUT
       shell: bash

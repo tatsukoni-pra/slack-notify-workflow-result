@@ -1,0 +1,14 @@
+{
+  "job-1": {
+    "result": "success",
+    "outputs": {}
+  },
+  "job-2": {
+    "result": "success",
+    "outputs": {}
+  },
+  "job-3": {
+    "result": "success",
+    "outputs": {}
+  }
+}
