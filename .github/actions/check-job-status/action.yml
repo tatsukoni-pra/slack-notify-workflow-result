@@ -17,7 +17,6 @@ runs:
       id: check_status
       run: |
         all_jobs_succeeded=true
-        json='${{ fromJSON(inputs.jobs) }}'
         echo "$json"
         echo "$json" | jq -c '.[] | .result' | while read -r result; do
           echo "結果: $result"
