@@ -17,8 +17,9 @@ runs:
       id: check_status
       run: |
         all_jobs_succeeded=true
-        echo '${{ fromJSON(inputs.jobs) }}'
-        echo '${{ fromJSON(inputs.jobs) }}' | jq -c '.[] | .result' | while read -r result; do
+        json='${{ fromJSON(inputs.jobs) }}'
+        echo "$json"
+        echo "$json" | jq -c '.[] | .result' | while read -r result; do
           echo "結果: $result"
           if [ "$result" != '"success"' ]; then
             all_jobs_succeeded=false
