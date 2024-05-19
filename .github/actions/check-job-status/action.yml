@@ -19,9 +19,7 @@ runs:
         needs_json=$(echo "${{ toJSON(inputs.needs) }}" | sed 's/n//g')
         echo "$needs_json" | jq -c '.[] | .result' | while read -r result; do
           if [ "$result" != '"success"' ]; then
-            echo `pwd`
             echo "job failure" > failure.txt
-            cat failure.txt
             break
           fi
         done
