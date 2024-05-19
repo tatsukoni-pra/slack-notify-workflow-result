@@ -18,8 +18,8 @@ jobs:
     needs: job-a
     timeout-minutes: 10
     steps:
-      - name: exit
-        run: exit 1
+      # - name: exit
+      #   run: exit 1
       - name: job-b output-1
         run: echo Job2 Hello1
 
